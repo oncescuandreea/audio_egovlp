@@ -1,0 +1,109 @@
+{
+    "name": "EpicKitchens_MIR_4f",
+    "n_gpu": 1,
+    "arch_vid": {
+        "type": "FrozenInTime",
+        "args": {
+            "video_params": {
+                "model": "SpaceTimeTransformer",
+                "arch_config": "base_patch16_224",
+                "num_frames": 16,
+                "pretrained": true,
+                "time_init": "zeros"
+            },
+            "text_params": {
+                "model": "distilbert-base-uncased",
+                "pretrained": true,
+                "input": "text"
+            },
+            "projection": "minimal",
+            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/egovlp.pth"
+        }
+    },
+    "arch": {
+        "type": "ASE",
+        "args": {
+            "aud_params": {
+                "max_length": 10,
+                "sample_rate": 32000
+            },
+            "text_params": {
+                "model": "bert-base-uncased",
+                "pretrained": true,
+                "input": "text",
+                "tmodel": "bert",
+                "pretrained-text": ""
+            },
+            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/HTSAT-BERT-FT-Clotho.pt"
+        }
+    },
+    "data_loader": {
+        "type": "MultiDistTextAudVideoDataLoader",
+        "args": {
+            "dataset_name": "EpicKitchens_MIR",
+            "data_dir": "/scratch/shared/beegfs/oncescu/shared-datasets/EpicKitchens-100/",
+            "meta_dir": "/scratch/shared/beegfs/oncescu/data/epic-kitchens-100-annotations/retrieval_annotations",
+            "reader": "cv2_epic",
+            "shuffle": true,
+            "num_workers": 1,
+            "batch_size": 1,
+            "split": "train",
+            "text_params": {
+                "input": "text",
+                "text_ext": "json",
+                "tmodel": "roberta"
+            },
+            "video_params": {
+                "input_res": 224,
+                "num_frames": 16,
+                "loading": "lax"
+            },
+            "aud_params": {
+                "audio_ext": "flac",
+                "max_length": 10,
+                "sample_rate": 32000,
+                "data_filling": "pad",
+                "data_truncating": "wavcap_trunc",
+                "use_gpt": false,
+                "left_sec": 0,
+                "right_sec": 0
+            },
+            "suffix_train": "",
+            "suffix": ""
+        }
+    },
+    "optimizer": {
+        "type": "AdamW",
+        "args": {
+            "lr": 3e-5
+        }
+    },
+    "loss": {
+        "type": "MaxMarginRankingLoss",
+        "args": {
+            "margin": 0.2
+        }
+    },
+    "metrics": [
+        "mir_metrics"
+    ],
+    "trainer": {
+        "epochs": 0,
+        "max_samples_per_epoch": 500000,
+        "save_dir": "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/results/EpicKitchens_MIR_4f",
+        "save_period": 2,
+        "verbosity": 2,
+        "monitor": "min val_loss_0",
+        "early_stop": 10,
+        "init_val": true,
+        "neptune": false,
+        "start_epoch": 1,
+        "vtoa_ratio": 2,
+        "join_method": "projection",
+        "normalisation": "",
+        "seed": 0
+    },
+    "visualizer": {
+        "type": ""
+    }
+}

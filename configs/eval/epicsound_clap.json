@@ -1,0 +1,126 @@
+{
+    "name": "EpicKitchens_EpicSounds_4f",
+    "n_gpu": 1,
+    "arch": {
+        "type": "CLAP",
+        "args": {
+            "video_params": {
+                "model": "SpaceTimeTransformer",
+                "arch_config": "base_patch16_224",
+                "num_frames": 16,
+                "pretrained": true,
+                "time_init": "zeros"
+            },
+            "aud_params": {
+                "model": "HTSAT-tiny",
+                "audio_length": 1024,
+                "clip_samples": 480000,
+                "mel_bins": 64,
+                "sample_rate": 48000,
+                "window_size": 1024,
+                "hop_size": 480,
+                "fmin": 50,
+                "fmax": 14000,
+                "class_num": 527,
+                "model_type": "HTSAT",
+                "model_name": "tiny",
+                "amodel": "HTSAT-tiny",
+                "pretrained-audio": ""
+            },
+            "text_params": {
+                "model": "roberta-base",
+                "pretrained": true,
+                "input": "text",
+                "tmodel": "roberta",
+                "pretrained-text": ""
+            },
+            "precision": "fp32",
+            "torchscript": false,
+            "force_quick_gelu": false,
+            "openai_model_cache_dir": "/scratch/shared/beegfs/oncescu/models/transformers_cache",
+            "enable_fusion": true,
+            "data_truncating": "fusion",
+            "fusion_type": "aff_2d",
+            "data_filling": "repeatpad",
+            "projection": "minimal",
+            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/CLAP/ckpt/630k-audioset-fusion-best.pt",
+            "pretrained": ""
+        }
+    },
+    "data_loader": {
+        "type": "MultiDistTextAudVideoDataLoader",
+        "args": {
+            "dataset_name": "EpicKitchens_EpicSounds",
+            "data_dir": "/scratch/shared/beegfs/oncescu/shared-datasets/EpicKitchens-100/",
+            "meta_dir": "/scratch/shared/beegfs/oncescu/data/epic-kitchens-100-annotations/retrieval_annotations",
+            "reader": "cv2_epic",
+            "shuffle": true,
+            "num_workers": 20,
+            "batch_size": 128,
+            "split": "train",
+            "text_params": {
+                "input": "text",
+                "text_ext": "json",
+                "tmodel": "roberta"
+            },
+            "video_params": {
+                "input_res": 224,
+                "num_frames": 16,
+                "loading": "lax"
+            },
+            "aud_params": {
+                "audio_ext": "flac",
+                "data_truncating": "fusion",
+                "data_filling": "repeatpad",
+                "max_len": 480000,
+                "max_length": 10,
+                "proportion": 1,
+                "audio_length": 1024,
+                "clip_samples": 480000,
+                "mel_bins": 64,
+                "sample_rate": 48000,
+                "window_size": 1024,
+                "hop_size": 480,
+                "fmin": 50,
+                "fmax": 14000,
+                "class_num": 527,
+                "left_sec": 0,
+                "right_sec": 0
+            },
+            "suffix_train": "",
+            "suffix": "",
+            "val_test_split": "test",
+            "relevancy_type": "verb"
+        }
+    },
+    "optimizer": {
+        "type": "AdamW",
+        "args": {
+            "lr": 3e-5
+        }
+    },
+    "loss": {
+        "type": "MaxMarginRankingLoss",
+        "args": {
+            "margin": 0.2
+        }
+    },
+    "metrics": [
+        "mir_metrics"
+    ],
+    "trainer": {
+        "epochs": 0,
+        "max_samples_per_epoch": 500000,
+        "save_dir": "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/results/EpicKitchens_EpicSounds_4f",
+        "save_period": 10,
+        "verbosity": 2,
+        "monitor": "min val_loss_0",
+        "early_stop": 10,
+        "init_val": true,
+        "neptune": false,
+        "start_epoch": 1
+    },
+    "visualizer": {
+        "type": ""
+    }
+}

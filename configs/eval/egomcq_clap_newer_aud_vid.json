@@ -1,0 +1,139 @@
+{
+    "name": "EgoClip_4f",
+    "n_gpu": 1,
+    "arch_vid": {
+        "type": "FrozenInTime",
+        "args": {
+            "video_params": {
+                "model": "SpaceTimeTransformer",
+                "arch_config": "base_patch16_224",
+                "num_frames": 4,
+                "pretrained": true,
+                "time_init": "zeros"
+            },
+            "text_params": {
+                "model": "distilbert-base-uncased",
+                "pretrained": true,
+                "input": "text"
+            },
+            "projection": "minimal",
+            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/egovlp.pth"
+        }
+    },
+    "arch": {
+        "type": "CLAP",
+        "args": {
+            "aud_params": {
+                "model": "HTSAT-tiny",
+                "audio_length": 1024,
+                "clip_samples": 480000,
+                "mel_bins": 64,
+                "sample_rate": 48000,
+                "window_size": 1024,
+                "hop_size": 480,
+                "fmin": 50,
+                "fmax": 14000,
+                "class_num": 527,
+                "model_type": "HTSAT",
+                "model_name": "tiny",
+                "amodel": "HTSAT-tiny",
+                "pretrained-audio": ""
+            },
+            "text_params": {
+                "model": "roberta-base",
+                "pretrained": true,
+                "input": "text",
+                "tmodel": "roberta",
+                "pretrained-text": ""
+            },
+            "precision": "fp32",
+            "torchscript": false,
+            "force_quick_gelu": false,
+            "openai_model_cache_dir": "/checkpoint/oncescu/transformers_cache",
+            "enable_fusion": true,
+            "data-truncating": "fusion",
+            "fusion_type": "aff_2d",
+            "data-filling": "repeatpad",
+            "projection": "minimal",
+            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/CLAP/ckpt/630k-audioset-fusion-best.pt",
+            "pretrained": ""
+        }
+    },
+    "data_loader": [
+        {
+            "type": "MultiDistTextAudVideoDataLoader",
+            "args": {
+                "dataset_name": "EgoClip",
+                "data_dir": "/scratch/shared/beegfs/oncescu/shared-datasets/Ego4D/ego4d_chunked/",
+                "meta_dir": "./dataset",
+                "reader": "cv2_egoclip",
+                "shuffle": true,
+                "num_workers": 8,
+                "batch_size": 2,
+                "split": "train",
+                "subsample": "mcq",
+                "text_params": {
+                    "input": "text",
+                    "text_ext": "json",
+                    "tmodel": "roberta"
+                },
+                "video_params": {
+                    "input_res": 224,
+                    "num_frames": 4,
+                    "loading": "lax"
+                },
+                "aud_params": {
+                    "audio_ext": "flac",
+                    "data_truncating": "fusion",
+                    "data_filling": "repeatpad",
+                    "max_len": 480000,
+                    "proportion": 1,
+                    "audio_length": 1024,
+                    "clip_samples": 480000,
+                    "mel_bins": 64,
+                    "sample_rate": 48000,
+                    "window_size": 1024,
+                    "hop_size": 480,
+                    "fmin": 50,
+                    "fmax": 14000,
+                    "class_num": 527,
+                    "left_sec": 0,
+                    "right_sec": 0
+                },
+                "neg_param": false,
+                "val_file": "egomcq_small_test.json",
+                "test_file": "egomcq_small_test.json"
+            }
+        }
+    ],
+    "optimizer": {
+        "type": "AdamW",
+        "args": {
+            "lr": 3e-5
+        }
+    },
+    "loss": {
+        "type": "EgoNCE",
+        "args": {}
+    },
+    "metrics": [
+        "egomcq_accuracy_metrics"
+    ],
+    "trainer": {
+        "epochs": 0,
+        "max_samples_per_epoch": 500000,
+        "save_dir": "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/results/EgoClip_4f",
+        "save_period": 1,
+        "verbosity": 2,
+        "monitor": "min val_loss_0",
+        "early_stop": 10,
+        "init_val": true,
+        "neptune": false,
+        "vtoa_ratio": 1,
+        "join_method": "projection",
+        "seed": 0
+    },
+    "visualizer": {
+        "type": ""
+    }
+}

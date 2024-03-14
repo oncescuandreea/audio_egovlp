@@ -1,0 +1,17 @@
+folder_*/
+logger/__pycache__/
+*.sh
+similarity_matrix_gpt.pkl
+model/__pycache__/
+__pycache__/
+data_loader/__pycache__/
+base/__pycache__/
+descriptions_text.txt
+descriptions_text_gpt.txt
+dict_embeds.pkl
+dict_embeds_both.pkl
+pretrained/
+pretrained_models/
+.vscode/
+dataset/
+egoclip_res_test/
