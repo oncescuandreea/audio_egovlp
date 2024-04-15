@@ -3,7 +3,7 @@
 [Project page](https://github.com/oncescuandreea/audio_egovlp) | [arXiv](https://arxiv.org/abs/2402.19106)
 
 
-![Demo of work](Picture_2.png)
+![Demo of work](demo_white.png)
 
 ## Data coming soon
 
