@@ -54,8 +54,6 @@ If you find our work helps, please consider citing our paper and the EgoVLP code
 
 This repo is maintained by [Andreea](https://github.com/oncescuandreea). Questions and discussions are welcome via `oncescu@robots.ox.ac.uk`.
 
-We are willing to merge results and codes if transfer our EgoVLP to other egocentric tasks or datasets.
-
 ## 🙏 Acknowledgements
 
 This codebase is based on [EgoVLP](https://qinghonglin.github.io/EgoVLP/), [WavCaps](https://github.com/XinhaoMei/WavCaps/tree/master), [Laion-CLAP](https://github.com/LAION-AI/CLAP)
