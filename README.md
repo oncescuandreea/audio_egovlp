@@ -5,9 +5,21 @@
 
 ![Demo of work](demo_white.png)
 
-## Data coming soon
+## More data coming soon
+EpicKitchens visual descriptions to GPT3.5 generated audio descriptions can be found [here](https://drive.google.com/drive/folders/187Iy8MSdKlaipV_yhbMwyYazeu711A1f?usp=sharing).
 
-## Code instructions coming soon
+## Full code instructions coming soon
+
+## Running experiments on EpicMIR text-audio retrieval using WavCaps models:
+Create folder pretrained_models/audio_encoders and download in this folder the HTSAT following instructions from [here](https://github.com/XinhaoMei/WavCaps/tree/master/retrieval)
+
+Put them under pretrained_models/audio_encoders.
+```
+python -m torch.distributed.launch --nnodes=1 --node_rank=0 --nproc_per_node 1 --master_port 8082  ./run/test_epic_wavcaps.py --config configs/eval/epic_clap_wavcap.json --seed 0 --use_gpt false --relevancy caption --suffix "" --folder <FOLDER IN WHICH TO SAVE RESULTS> --load_ckpt_aud <ADD FULL PATH TO PRETRAINED MODEL HERE> --dual_softmax "False"
+```
+checkpoint can be e.g. /your/path/HTSAT-BERT-FT-AudioCaps.pt found [here](https://drive.google.com/drive/folders/1pFr8IRY3E1FAtc2zjYmeuSVY3M5a-Kdj)
+
+
 
 ## 🎓 Citation
 
