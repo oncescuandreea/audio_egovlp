@@ -10,10 +10,33 @@ EpicKitchens visual descriptions to GPT3.5 generated audio descriptions can be f
 
 ## Full code instructions coming soon
 
-## Running experiments on EpicMIR text-audio retrieval using WavCaps models:
-Create folder pretrained_models/audio_encoders and download in this folder the HTSAT following instructions from [here](https://github.com/XinhaoMei/WavCaps/tree/master/retrieval)
+## Downloading pre-trained models needed for experiments:
+Create folder pretrained_models/audio_encoders and download in this folder the HTSAT following instructions from [here](https://github.com/XinhaoMei/WavCaps/tree/master/retrieval). Put them under pretrained_models/audio_encoders. Alternatively, use the code below.
 
-Put them under pretrained_models/audio_encoders.
+```
+mkdir -p pretrained_models/audio_encoder
+gdown pretrained_models/audio_encoder/HTSAT.ckpt "https://drive.google.com/uc?id=11XiCDsW3nYJ6uM87pvP3wI3pDAGhsBC1"
+```
+
+For audio-based experiments, the following checkpoints should be downloaded for reproducing paper numbers. More checkpoints can be found [here](https://drive.google.com/drive/folders/1pFr8IRY3E1FAtc2zjYmeuSVY3M5a-Kdj) and more information can be found [here](https://github.com/XinhaoMei/WavCaps/tree/master/retrieval).
+
+```
+mkdir pretrained
+gdown --output pretrained/HTSAT-BERT-FT-AudioCaps.pt "https://drive.google.com/uc?id=1-qm0UoDvzYUXajezQ7v7OZCDZRepg3K_"
+gdown --output pretrained/HTSAT-BERT-FT-Clotho.pt "https://drive.google.com/uc?id=1werAcDdMLN0Fy1TNwHr3R6Z1NFX1J-6B"
+```
+
+Then, for vision-based experiments, the following models are needed: [egovlp.pth](https://drive.google.com/file/d/1-cP3Gcg0NGDcMZalgJ_615BQdbFIbcj7/view?usp=sharing), and [jx_vit_base_p16_224-80ecf9dd.pth](https://github.com/huggingface/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_p16_224-80ecf9dd.pth). These can be downloaded in the right folders by running the code below:
+
+```
+mkdir pretrained
+wget https://github.com/huggingface/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_p16_224-80ecf9dd.pth -P pretrained/
+gdown --output pretrained/egovlp.pth "https://drive.google.com/uc?id=1-cP3Gcg0NGDcMZalgJ_615BQdbFIbcj7"
+```
+
+
+## Running experiments on EpicMIR text-audio retrieval using WavCaps models:
+
 ```
 python -m torch.distributed.launch --nnodes=1 --node_rank=0 --nproc_per_node 1 --master_port 8082  ./run/test_epic_wavcaps.py --config configs/eval/epic_clap_wavcap.json --seed 0 --use_gpt false --relevancy caption --suffix "" --folder <FOLDER IN WHICH TO SAVE RESULTS> --load_ckpt_aud <ADD FULL PATH TO PRETRAINED MODEL HERE> --dual_softmax "False"
 ```
