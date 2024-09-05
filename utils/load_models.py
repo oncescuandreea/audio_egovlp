@@ -2,9 +2,9 @@ import os
 
 import torch
 import yaml
-from src.open_clip import create_model
 
 from model.model import ASE
+from src.open_clip import create_model
 
 
 def load_model_clap(config, device, args):
@@ -57,7 +57,7 @@ def load_model_clap(config, device, args):
 
 def load_model_ase(config, args):
     with open(
-        "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/configs/eval/inference.yaml",
+        "configs/eval/inference.yaml",
         "r",
     ) as f:
         config_wav = yaml.safe_load(f)
@@ -67,6 +67,7 @@ def load_model_ase(config, args):
     # print(f'Using seed {config_wav["seed"]}')
     model = ASE(config_wav)
     cp_path = config_wav["pretrain_path"]
+    # print(model)
     cp = torch.load(cp_path)
     model.load_state_dict(cp["model"])
     return model

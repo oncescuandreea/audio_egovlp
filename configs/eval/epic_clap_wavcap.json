@@ -19,7 +19,7 @@
             "seed": 20,
             "embed_size": 1024,
             "temp": 0.07,
-            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/HTSAT-BERT-FT-Clotho.pt",
+            "load_checkpoint": "pretrained/HTSAT-BERT-FT-Clotho.pt",
             "pretrained": true,
             "embed_regularization": true
         }
@@ -28,8 +28,8 @@
         "type": "MultiDistTextAudVideoDataLoader",
         "args": {
             "dataset_name": "EpicKitchens_MIR",
-            "data_dir": "/scratch/shared/beegfs/oncescu/shared-datasets/EpicKitchens-100/",
-            "meta_dir": "/scratch/shared/beegfs/oncescu/data/epic-kitchens-100-annotations/retrieval_annotations",
+            "data_dir": "<dataset>/EpicKitchens-100/",
+            "meta_dir": "data/epic-kitchens-100-annotations/retrieval_annotations",
             "reader": "cv2_epic",
             "shuffle": true,
             "num_workers": 32,
@@ -78,7 +78,7 @@
     "trainer": {
         "epochs": 0,
         "max_samples_per_epoch": 500000,
-        "save_dir": "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/results/EpicKitchens_MIR_4f",
+        "save_dir": "results/EpicKitchens_MIR_4f",
         "save_period": 10,
         "verbosity": 2,
         "monitor": "min val_loss_0",

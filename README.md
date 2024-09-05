@@ -7,6 +7,15 @@
 
 # <span style='color:red'>‼️ Codebase under construction‼️</span> check back later
 
+## Installing environment
+To be able to run the code, follow the steps below:
+
+```
+conda env create -f environment.yml
+python -m nltk.downloader stopwords
+export PYTHONPATH=.
+```
+
 ## Datasets needed
 1. EpicMIR
 2. EgoMCQ
@@ -16,6 +25,14 @@ To download **EpicMIR** and **EgoMCQ**, follow instructions [here](https://githu
 
 For **EpicSounds**, the data is the same as for **EpicMIR**, only sentences are different. Relevant descriptions in the format needed are found in [this folder](https://drive.google.com/drive/folders/1OSYniORkyyhxPcClccZHkH73TS4WoenE?usp=drive_link). Download these files and put them in the ```epic-kitchens-100-annotations/retrieval_annotations``` folder together with the other EpicMIR data downloaded.
 
+To get the ```epic-kitchens-100-annotations``` content follow the lines below and then download the files from the link above.
+```
+mkdir data
+cd data
+git clone git@github.com:epic-kitchens/epic-kitchens-100-annotations.git
+```
+
+
 EpicKitchens/EpicMIR visual descriptions to GPT3.5 generated audio descriptions can be found [here](https://drive.google.com/drive/folders/187Iy8MSdKlaipV_yhbMwyYazeu711A1f?usp=sharing).
 
 
@@ -24,7 +41,7 @@ Create folder pretrained_models/audio_encoders and download in this folder the H
 
 ```
 mkdir -p pretrained_models/audio_encoder
-gdown pretrained_models/audio_encoder/HTSAT.ckpt "https://drive.google.com/uc?id=11XiCDsW3nYJ6uM87pvP3wI3pDAGhsBC1"
+gdown --output pretrained_models/audio_encoder/HTSAT.ckpt "https://drive.google.com/uc?id=11XiCDsW3nYJ6uM87pvP3wI3pDAGhsBC1"
 ```
 
 For audio-based experiments, the following checkpoints should be downloaded for reproducing paper numbers. More checkpoints can be found [here](https://drive.google.com/drive/folders/1pFr8IRY3E1FAtc2zjYmeuSVY3M5a-Kdj) and more information can be found [here](https://github.com/XinhaoMei/WavCaps/tree/master/retrieval). For Laion-CLAP model, more information can be found [here](https://github.com/LAION-AI/CLAP).

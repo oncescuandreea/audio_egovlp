@@ -9,7 +9,7 @@ from operator import getitem
 from pathlib import Path
 
 # import pdb; pdb.set_trace()
-from logger import setup_logging
+from logger.logger import setup_logging
 from utils import read_json, write_json
 
 
