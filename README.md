@@ -12,6 +12,7 @@ To be able to run the code, follow the steps below:
 
 ```
 conda env create -f environment.yml
+conda activate egovlp
 python -m nltk.downloader stopwords
 export PYTHONPATH=.
 ```
@@ -22,6 +23,8 @@ export PYTHONPATH=.
 3. EpicSounds
 
 To download **EpicMIR** and **EgoMCQ**, follow instructions [here](https://github.com/showlab/EgoVLP?tab=readme-ov-file#-downstream-tasks).
+
+For **EgoMCQ** follow instructions [here](https://github.com/showlab/EgoVLP?tab=readme-ov-file#ego4d-videos-and-metadata).
 
 For **EpicSounds**, the data is the same as for **EpicMIR**, only sentences are different. Relevant descriptions in the format needed are found in [this folder](https://drive.google.com/drive/folders/1OSYniORkyyhxPcClccZHkH73TS4WoenE?usp=drive_link). Download these files and put them in the ```epic-kitchens-100-annotations/retrieval_annotations``` folder together with the other EpicMIR data downloaded.
 
