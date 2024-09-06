@@ -30,6 +30,7 @@ To get the ```epic-kitchens-100-annotations``` content follow the lines below an
 mkdir data
 cd data
 git clone git@github.com:epic-kitchens/epic-kitchens-100-annotations.git
+cd ..
 ```
 
 
@@ -68,6 +69,8 @@ To run experiments using the WavCaps model, the config flag should be set to ```
 
 To run experiments using the Laion-CLAP model, the config flag should be set to ```configs/eval/epic_clap.json```. In this case, the load_ckpt_aud does not need to be set, as only one checkpoint has been used for CLAP-based experiments.
 
+<ins>In all config files, you need to add the ```data_dir``` path to your audio/video folder. </ins>
+
 Set ```--use_gpt true``` to use LLM-generated audio descriptions. Set ```--use_gpt false``` to use original visual labels as audio descriptions.
 
 Set ```--folder``` flag to specific name to save experiment results.
@@ -84,6 +87,7 @@ To run experiments using the WavCaps model, the config flag should be set to ```
 
 To run experiments using the Laion-CLAP model, the config flag should be set to ```configs/eval/egomcq_clap_newer.json```. In this case, the load_ckpt_aud does not need to be set, as only one checkpoint has been used for CLAP experiments.
 
+<ins>In all config files, you need to add the ```data_dir``` path to your audio/video folder. </ins>
 
 Eg. Running CLAP model on AudioEgoMCQ with visual labels as audio descriptions:
 ```
@@ -96,9 +100,11 @@ To run experiments using the WavCaps model, the config flag should be set to ```
 
 To run experiments using the Laion-CLAP model, the config flag should be set to ```configs/eval/epicsound_clap.json```.
 
+<ins>In all config files, you need to add the ```data_dir``` path to your audio/video folder. </ins>
+
 Eg. Running EpicSoundsRet experiments using WavCaps model. This example uses LLM generated audio descriptions as ```--use_gpt``` is set to ```true```.
 ```
-python -m torch.distributed.launch --nnodes=1 --node_rank=0 --nproc_per_node 1 --master_port 8082  ./run/test_epic_wavcaps.py --config configs/eval/epicsound_clap_wavcap.json --seed 2  --folder folder_epicsounds --val_test_split test --use_gpt true --load_ckpt_aud /scratch/shared/beegfs/oncescu/models/HTSAT-BERT-FT-AudioCaps.pt --dual_softmax "False"
+python -m torch.distributed.launch --nnodes=1 --node_rank=0 --nproc_per_node 1 --master_port 8082  ./run/test_epic_wavcaps.py --config configs/eval/epicsound_clap_wavcap.json --seed 2  --folder folder_epicsounds --val_test_split test --use_gpt true --load_ckpt_aud /full/path/to/HTSAT-BERT-FT-AudioCaps.pt --dual_softmax "False"
 ```
 
 ## Running text-audio retrieval experiments on AudioEpicMIR relevancy subsets (Table 4):

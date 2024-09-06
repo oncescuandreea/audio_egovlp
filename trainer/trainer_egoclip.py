@@ -780,7 +780,6 @@ class Multi_Trainer_aud_dist(Multi_BaseTrainer_dist):
         data_key = "text_gpt" if self.use_gpt else "text"
         print(f"data_key used is {data_key}")
         model_used = "audio" if "arch_vid" not in self.config._config else "both"
-        text_doc = ""
         with torch.no_grad():
             # for validation we switch the nested loop order, because alternate batches not needed...
             # ... and dataloaders can be of different length
@@ -876,8 +875,6 @@ class Multi_Trainer_aud_dist(Multi_BaseTrainer_dist):
                     total_val_loss_2[dl_idx] += loss_2.detach().item()
                     # self.logger.info(f'Got similarity matrix')
                     data_type = data["type"][0].to(self.device).unsqueeze(0)
-                    if data_pred.argmax().item() != data_gt:
-                        text_doc += f"data_key is {data_key}, orig descr {data_text_official} and gpt descr is {data_text_gpt} and data_type is {data_type_dict[data_type.item()]}\n"
                     # print(f'Data type is {data_type}')
 
                     # if isinstance(self.model, nn.DataParallel) and data["video"].shape[0] < len(self.model.device_ids):
@@ -922,12 +919,7 @@ class Multi_Trainer_aud_dist(Multi_BaseTrainer_dist):
                     self.writer.add_scalar(
                         f"Loss_val_2/loss_total_{dl_idx}", tl_2, epoch - 1
                     )
-        with open(
-            f"/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp-copy/egovlp/{data_key}_full_test.txt",
-            "w",
-        ) as f:
-            # saving here the text descriptions that were wrongly classified
-            f.write(text_doc)
+
         for dl_idx in range(len(self.valid_data_loader)):
             nested_metrics = {x: {} for x in range(len(self.valid_data_loader))}
             gt_arr_cat = torch.cat(gt_arr[dl_idx])

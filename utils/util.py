@@ -321,8 +321,7 @@ def calculate_from_split(
     """
     levels = list(mask_dict_aud_rel.keys())
     suffix = config["data_loader"]["args"]["suffix"]
-    # with open("/work/oncescu/data/kinetics700/annotations/indexes.pkl", "wb") as f:
-    #     pickle.dump({"indexes": indexes}, f)
+
     if not any(level in suffix for level in levels):
         for level in levels:
             level_samples = mask_dict_aud_rel[level]

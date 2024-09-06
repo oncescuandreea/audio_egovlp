@@ -17,15 +17,15 @@
                 "input": "text"
             },
             "projection": "minimal",
-            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/egovlp.pth"
+            "load_checkpoint": "pretrained/egovlp.pth"
         }
     },
     "data_loader": {
         "type": "MultiDistTextVideoDataLoader",
         "args": {
             "dataset_name": "EpicKitchens_MIR",
-            "data_dir": "/work/oncescu/data/epickitchens/",
-            "meta_dir": "/scratch/shared/beegfs/oncescu/data/epic-kitchens-100-annotations/retrieval_annotations",
+            "data_dir": "<dataset_path>/EpicKitchens-100/",
+            "meta_dir": "data/epic-kitchens-100-annotations/retrieval_annotations",
             "reader": "cv2_epic",
             "shuffle": true,
             "num_workers": 1,
@@ -59,7 +59,7 @@
     "trainer": {
         "epochs": 0,
         "max_samples_per_epoch": 500000,
-        "save_dir": "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/results/EpicKitchens_MIR_4f",
+        "save_dir": "results/EpicKitchens_MIR_4f",
         "save_period": 2,
         "verbosity": 2,
         "monitor": "min val_loss_0",

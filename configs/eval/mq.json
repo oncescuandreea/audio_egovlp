@@ -17,14 +17,14 @@
                 "input": "text"
             },
             "projection_dim": 256,
-            "load_checkpoint" : "/private/home/oncescu/coding/EgoVLP_ash/pretrained/egovlp.pth"
+            "load_checkpoint" : "pretrained/egovlp.pth"
         }
     },
     "data_loader": {
         "type": "TextVideoDataLoader",
         "args": {
             "dataset_name": "Ego4D_MQ",
-            "data_dir": "/private/home/ashutoshkr/data/Ego4D/ego4d_256/",
+            "data_dir": "<dataset_path>/Ego4D/ego4d_256/",
             "meta_dir": "/datasets01/ego4d_track2/v1/annotations/",
             "shuffle": true,
             "num_workers": 1,
@@ -60,7 +60,7 @@
     "trainer": {
         "epochs": 50,
         "max_samples_per_epoch": 500000,
-        "save_dir": "/apdcephfs/private_qinghonglin/video_codebase/EgoVLP/results/MQ",
+        "save_dir": "results/MQ",
         "save_period": 2,
         "verbosity": 2,
         "monitor": "min val_loss_0",

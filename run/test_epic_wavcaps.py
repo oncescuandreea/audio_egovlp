@@ -22,12 +22,24 @@ import data_loader.data_loader as module_data
 import model.metric as module_metric
 import model.model as module_arch
 from parse_config import ConfigParser
-from utils import (calculate_from_split, gen_mask_array,
-                   initialise_jpose_nDCG_values, load_model_ase,
-                   load_model_clap, mAP, move_video_data_to_device, nDCG,
-                   normalize_sentence, print_mAP, print_nDCG,
-                   relevance_mask_generator, save_correctness_of_text,
-                   text_wavcaps, tokenize_and_move_to_gpu, write_res_file)
+from utils import (
+    calculate_from_split,
+    gen_mask_array,
+    initialise_jpose_nDCG_values,
+    load_model_ase,
+    load_model_clap,
+    mAP,
+    move_video_data_to_device,
+    nDCG,
+    normalize_sentence,
+    print_mAP,
+    print_nDCG,
+    relevance_mask_generator,
+    save_correctness_of_text,
+    text_wavcaps,
+    tokenize_and_move_to_gpu,
+    write_res_file,
+)
 
 ex = Experiment("test")
 
@@ -293,7 +305,7 @@ def run():
 
     if both:
         with open(
-            "/scratch/shared/beegfs/oncescu/data/epic-kitchens-100-annotations/retrieval_annotations/audio_lemmas.pkl",
+            "data/epic-kitchens-100-annotations/retrieval_annotations/audio_lemmas.pkl",
             "rb",
         ) as f:
             audio_lemmas = pickle.load(f)

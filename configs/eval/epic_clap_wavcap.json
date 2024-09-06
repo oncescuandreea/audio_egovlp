@@ -28,7 +28,7 @@
         "type": "MultiDistTextAudVideoDataLoader",
         "args": {
             "dataset_name": "EpicKitchens_MIR",
-            "data_dir": "<dataset>/EpicKitchens-100/",
+            "data_dir": "<dataset_path>/EpicKitchens-100/",
             "meta_dir": "data/epic-kitchens-100-annotations/retrieval_annotations",
             "reader": "cv2_epic",
             "shuffle": true,

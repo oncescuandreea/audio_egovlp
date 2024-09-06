@@ -473,7 +473,7 @@ class EgoClip_EgoMCQ_CLAP(Dataset):
                     + file_v_0.rsplit(".mp4", 1)[0]
                     + ".flac"
                 )
-                # test_audio_fp = "/scratch/shared/beegfs/oncescu/shared-datasets/Ego4D/ego4d_chunked_audio/000cd456-ff8d-499b-b0c1-4acead128a8b/0.flac"
+
                 if os.path.isfile(audio_fp):
                     duration = video_sec[1] - video_sec[0]
                     offset = video_sec[0] - int(file_v_0[:-4]) * 600.0

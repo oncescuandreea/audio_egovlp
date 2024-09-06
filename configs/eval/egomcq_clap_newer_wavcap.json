@@ -15,7 +15,7 @@
                 "tmodel": "bert",
                 "pretrained-text": ""
             },
-            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/HTSAT-BERT-FT-Clotho.pt"
+            "load_checkpoint": "pretrained/HTSAT-BERT-FT-Clotho.pt"
         }
     },
     "data_loader": [
@@ -23,7 +23,7 @@
             "type": "MultiDistTextAudVideoDataLoader",
             "args": {
                 "dataset_name": "EgoClip",
-                "data_dir": "/scratch/shared/beegfs/oncescu/shared-datasets/Ego4D/ego4d_chunked/",
+                "data_dir": "<dataset_path>/Ego4D/ego4d_chunked/",
                 "meta_dir": "./dataset",
                 "reader": "cv2_egoclip",
                 "shuffle": true,
@@ -71,7 +71,7 @@
     "trainer": {
         "epochs": 0,
         "max_samples_per_epoch": 500000,
-        "save_dir": "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/results/EgoClip_4f",
+        "save_dir": "results/EgoClip_4f",
         "save_period": 1,
         "verbosity": 2,
         "monitor": "min val_loss_0",

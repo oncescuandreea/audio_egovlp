@@ -37,13 +37,13 @@
             "precision": "fp32",
             "torchscript": false,
             "force_quick_gelu": false,
-            "openai_model_cache_dir": "/scratch/shared/beegfs/oncescu/models/transformers_cache",
+            "openai_model_cache_dir": "transformers_cache",
             "enable_fusion": true,
             "data_truncating": "fusion",
             "fusion_type": "aff_2d",
             "data_filling": "repeatpad",
             "projection": "minimal",
-            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/CLAP/ckpt/630k-audioset-fusion-best.pt",
+            "load_checkpoint": "pretrained/630k-audioset-fusion-best.pt",
             "pretrained": ""
         }
     },
@@ -51,8 +51,8 @@
         "type": "MultiDistTextAudVideoDataLoader",
         "args": {
             "dataset_name": "EpicKitchens_EpicSounds",
-            "data_dir": "/scratch/shared/beegfs/oncescu/shared-datasets/EpicKitchens-100/",
-            "meta_dir": "/scratch/shared/beegfs/oncescu/data/epic-kitchens-100-annotations/retrieval_annotations",
+            "data_dir": "<dataset_path>/EpicKitchens-100/",
+            "meta_dir": "data/epic-kitchens-100-annotations/retrieval_annotations",
             "reader": "cv2_epic",
             "shuffle": true,
             "num_workers": 20,
@@ -111,7 +111,7 @@
     "trainer": {
         "epochs": 0,
         "max_samples_per_epoch": 500000,
-        "save_dir": "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/results/EpicKitchens_EpicSounds_4f",
+        "save_dir": "results/EpicKitchens_EpicSounds_4f",
         "save_period": 10,
         "verbosity": 2,
         "monitor": "min val_loss_0",

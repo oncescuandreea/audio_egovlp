@@ -17,7 +17,7 @@
                 "input": "text"
             },
             "projection": "minimal",
-            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/egovlp.pth"
+            "load_checkpoint": "pretrained/egovlp.pth"
         }
     },
     "arch": {
@@ -49,13 +49,13 @@
             "precision": "fp32",
             "torchscript": false,
             "force_quick_gelu": false,
-            "openai_model_cache_dir": "/checkpoint/oncescu/transformers_cache",
+            "openai_model_cache_dir": "transformers_cache",
             "enable_fusion": true,
             "data-truncating": "fusion",
             "fusion_type": "aff_2d",
             "data-filling": "repeatpad",
             "projection": "minimal",
-            "load_checkpoint": "/scratch/shared/beegfs/oncescu/models/CLAP/ckpt/630k-audioset-fusion-best.pt",
+            "load_checkpoint": "pretrained/630k-audioset-fusion-best.pt",
             "pretrained": ""
         }
     },
@@ -64,7 +64,7 @@
             "type": "MultiDistTextAudVideoDataLoader",
             "args": {
                 "dataset_name": "EgoClip",
-                "data_dir": "/scratch/shared/beegfs/oncescu/shared-datasets/Ego4D/ego4d_chunked/",
+                "data_dir": "<dataset_path>/Ego4D/ego4d_chunked/",
                 "meta_dir": "./dataset",
                 "reader": "cv2_egoclip",
                 "shuffle": true,
@@ -122,7 +122,7 @@
     "trainer": {
         "epochs": 0,
         "max_samples_per_epoch": 500000,
-        "save_dir": "/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp/results/EgoClip_4f",
+        "save_dir": "results/EgoClip_4f",
         "save_period": 1,
         "verbosity": 2,
         "monitor": "min val_loss_0",

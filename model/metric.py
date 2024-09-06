@@ -1,6 +1,5 @@
-"""Module for computing performance metrics
+"""Module for computing performance metrics"""
 
-"""
 import os
 import pickle
 import random
@@ -512,7 +511,7 @@ def sim_matrices_vid_only(text_embeds, vid_embeds, indexes):
     ) / 2  # no_texts x no_videos
     similarity_matrix_tot = similarity_matrix.copy()
     with open(
-        "/scratch/shared/beegfs/oncescu/data/epic-kitchens-100-annotations/retrieval_annotations/similarity_matrix_for_vid_gpt_epicsounds.npy",
+        "data/epic-kitchens-100-annotations/retrieval_annotations/similarity_matrix_for_vid_gpt_epicsounds.npy",
         "wb",
     ) as f:
         np.save(f, similarity_matrix_tot)

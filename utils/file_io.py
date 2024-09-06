@@ -1,5 +1,6 @@
 import os
 import pickle
+from pathlib import Path
 from typing import Any, Union
 
 from torch import nn
@@ -89,8 +90,10 @@ def save_results(
     ckpt = get_ckpt_name(args, config)
     if normalisation == "":
         normalisation = "None"
+    if not Path("egoclip_res_test").exists():
+        Path("egoclip_res_test").mkdir(exist_ok=True, parents=True)
     with open(
-        f"/scratch/shared/beegfs/oncescu/coding/libs/pt/egovlp_official/egoclip_res_test/vtoa_{vtoa_ratio}_normalisation_{normalisation}_modelused_{model_used}_usegpt_{use_gpt}_metric_{metric_name}_testfile_{test_file}_ckpt_{ckpt}_rightsec_{right_sec}_leftsec_{left_sec}_seed_{seed}.pkl",
+        f"egoclip_res_test/vtoa_{vtoa_ratio}_normalisation_{normalisation}_modelused_{model_used}_usegpt_{use_gpt}_metric_{metric_name}_testfile_{test_file}_ckpt_{ckpt}_rightsec_{right_sec}_leftsec_{left_sec}_seed_{seed}.pkl",
         "wb",
     ) as f:
         pickle.dump(res, f)
