@@ -464,16 +464,16 @@ class EgoClip_EgoMCQ_CLAP(Dataset):
         if os.path.isfile(video_fp[0]) and os.path.isfile(video_fp[1]):
             path_v, folder_v_0, file_v_0 = video_fp[0].rsplit("/", 2)
             path_v, folder_v_1, file_v_1 = video_fp[1].rsplit("/", 2)
-
+            print("got to line 467")
             if file_v_0 == file_v_1:
                 audio_fp = (
-                    "/scratch/shared/beegfs/oncescu/shared-datasets/Ego4D/ego4d_chunked_audio/"
+                    "./dataset/ego4d_chunked_audio/"
                     + folder_v_0
                     + "/"
                     + file_v_0.rsplit(".mp4", 1)[0]
                     + ".flac"
                 )
-
+                print("got to line 476")
                 if os.path.isfile(audio_fp):
                     duration = video_sec[1] - video_sec[0]
                     offset = video_sec[0] - int(file_v_0[:-4]) * 600.0
@@ -484,6 +484,7 @@ class EgoClip_EgoMCQ_CLAP(Dataset):
                     if offset - self.left_sec >= int(file_v_0[:-4]) * 600:
                         offset -= self.left_sec
                         duration += self.left_sec
+                    print("got to line 487")
                     audio_data, orig_sr = librosa.load(
                         audio_fp,
                         sr=self.aud_params["sample_rate"],
@@ -491,30 +492,34 @@ class EgoClip_EgoMCQ_CLAP(Dataset):
                         duration=duration,
                         mono=True,
                     )
+                    print("got to line 495")
                     assert (
                         orig_sr == self.aud_params["sample_rate"]
                     ), f"Loading of audio did not go according to plan for {audio_fp}"
                     if self.aud_params["sample_rate"] == 48000:
                         audio_data = int16_to_float32(float32_to_int16(audio_data))
                     audio_data = torch.tensor(audio_data).float()
+                    print("got to line 502")
                 else:
                     print(f"ERRRRROOOOR with {audio_fp}")
+                    raise ValueError(f"Need audio_data for this to work {audio_fp}")
                     # print(audio_fp)
             else:
                 audio_fp_0 = (
-                    "/scratch/shared/beegfs/oncescu/shared-datasets/Ego4D/ego4d_chunked_audio/"
+                    "./dataset/ego4d_chunked_audio/"
                     + folder_v_0
                     + "/"
                     + file_v_0.rsplit(".mp4", 1)[0]
                     + ".flac"
                 )
                 audio_fp_1 = (
-                    "/scratch/shared/beegfs/oncescu/shared-datasets/Ego4D/ego4d_chunked_audio/"
+                    "./dataset/ego4d_chunked_audio/"
                     + folder_v_1
                     + "/"
                     + file_v_1.rsplit(".mp4", 1)[0]
                     + ".flac"
                 )
+                print("got to line 522")
                 if os.path.exists(audio_fp_0) and os.path.exists(audio_fp_1):
                     duration_1 = video_sec[1] - int(file_v_1[:-4]) * 600.0
                     offset_0 = video_sec[0] - int(file_v_0[:-4]) * 600.0
@@ -536,6 +541,7 @@ class EgoClip_EgoMCQ_CLAP(Dataset):
                         duration=duration_1,
                         mono=True,
                     )
+                    print("got to line 544")
                     assert (
                         orig_sr0 == orig_sr1 == self.aud_params["sample_rate"]
                     ), f"Loading of audio did not go according to plan for {audio_fp}"

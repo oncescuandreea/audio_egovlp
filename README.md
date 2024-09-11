@@ -18,15 +18,44 @@ export PYTHONPATH=.
 ```
 
 ## Datasets needed
-1. EpicMIR
-2. EgoMCQ
+1. AudioEgoMCQ
+2. AudioEpicMIR
 3. EpicSounds
 
-To download **EpicMIR** and **EgoMCQ**, follow instructions [here](https://github.com/showlab/EgoVLP?tab=readme-ov-file#-downstream-tasks).
 
-For **EgoMCQ** follow instructions [here](https://github.com/showlab/EgoVLP?tab=readme-ov-file#ego4d-videos-and-metadata).
+### AudioEgoMCQ
+Before being able to run the AudioEgoMCQ experiments, one needs to first download the needed **Ego4D** data which in turns first requires [completing a lincense agreement](https://ego4d-data.org/docs/start-here/#license-agreement). Once approval and credentials are obtained, follow intructions [here](https://github.com/showlab/EgoVLP?tab=readme-ov-file#ego4d-videos-and-metadata) to download the needed data for related experiments.
 
-For **EpicSounds**, the data is the same as for **EpicMIR**, only sentences are different. Relevant descriptions in the format needed are found in [this folder](https://drive.google.com/drive/folders/1OSYniORkyyhxPcClccZHkH73TS4WoenE?usp=drive_link). Download these files and put them in the ```epic-kitchens-100-annotations/retrieval_annotations``` folder together with the other EpicMIR data downloaded.
+Also download the following for [EgoClip](https://github.com/showlab/EgoVLP?tab=readme-ov-file#egoclip-an-egocentric-video-language-pretraining-dataset) and [EgoMCQ](https://github.com/showlab/EgoVLP?tab=readme-ov-file#egomcq-an-egocentric-video-language-development-set):
+```
+mkdir dataset
+cd dataset
+gdown "https://drive.google.com/uc?id=1-aaDu_Gi-Y2sQI_2rsI2D1zvQBJnHpXl"
+gdown "https://drive.google.com/uc?id=1-5iRYf4BCHmj4MYQYFRMY4bhsWJUN3rW"
+cd ..
+gdown --folder https://drive.google.com/drive/folders/1gWto7N5rh5nmbWl3JGYsH5wYFzmSBi6J -O dataset/
+mv dataset/audio_retrieval_egomcq/* dataset/.
+rm -r dataset/audio_retrieval_egomcq/
+```
+
+Once data has been downloaded, follow the lines below to process it and extract video chunks and audios:
+```
+mkdir -p dataset
+cd dataset
+ln -s <path_to_ego4d_video_folder> ego4d
+cd ..
+python utils/video_resize.py --nproc 10 --subset mcq
+python utils/video_chunk.py --task video_chunks --dataset egovlp --nproc 10
+python utils/video_chunk.py --task audio_chunks --dataset egovlp --nproc 10
+```
+Select subset flag to be mcq if only interested in the MCQ subset where we have both video and audio content. Otherwise, select all which is also the default option.
+
+
+### AudioEpicMIR and EpicSounds
+The first step in running experiments on AudioEpicMIR and EpicSounds is downloading the EpicKitchens data. For that, follow instructions in this [repo](https://github.com/epic-kitchens/epic-kitchens-download-scripts). Tl;dr once repo is cloned for only the test data, run:
+```
+python epic_downloader.py --videos --test
+```
 
 To get the ```epic-kitchens-100-annotations``` content follow the lines below and then download the files from the link above.
 ```
@@ -36,9 +65,26 @@ git clone git@github.com:epic-kitchens/epic-kitchens-100-annotations.git
 cd ..
 ```
 
+For **EpicSounds**, the data is the same as for **EpicMIR**, only sentences are different. Relevant descriptions in the format needed are found in [this folder](https://drive.google.com/drive/folders/1OSYniORkyyhxPcClccZHkH73TS4WoenE?usp=drive_link). Download these files and put them in the ```epic-kitchens-100-annotations/retrieval_annotations``` folder together with the other EpicMIR data downloaded.
+```
+cd data
+
+gdown --folder https://drive.google.com/drive/folders/187Iy8MSdKlaipV_yhbMwyYazeu711A1f -O epic-kitchens-100-annotations/retrieval_annotations/
+mv epic-kitchens-100-annotations/retrieval_annotations/audio_retrieval_audioepicmir/* epic-kitchens-100-annotations/retrieval_annotations/.
+rm -r epic-kitchens-100-annotations/retrieval_annotations/audio_retrieval_audioepicmir/
+
+gdown --folder https://drive.google.com/drive/folders/1OSYniORkyyhxPcClccZHkH73TS4WoenE -O epic-kitchens-100-annotations/retrieval_annotations/
+mv epic-kitchens-100-annotations/retrieval_annotations/audio_retrieval_epicsoundsret/* epic-kitchens-100-annotations/retrieval_annotations/.
+rm -r epic-kitchens-100-annotations/retrieval_annotations/audio_retrieval_epicsoundsret/
+
+cd ..
+```
+
 
 EpicKitchens/EpicMIR visual descriptions to GPT3.5 generated audio descriptions can be found [here](https://drive.google.com/drive/folders/187Iy8MSdKlaipV_yhbMwyYazeu711A1f?usp=sharing).
 
+
+More details on how to download related data can be found [here](https://github.com/showlab/EgoVLP?tab=readme-ov-file#-downstream-tasks).
 
 ## Downloading pre-trained models needed for experiments:
 Create folder pretrained_models/audio_encoders and download in this folder the HTSAT following instructions from [here](https://github.com/XinhaoMei/WavCaps/tree/master/retrieval). Put them under pretrained_models/audio_encoders. Alternatively, use the code below.
@@ -60,7 +106,6 @@ wget https://huggingface.co/lukewys/laion_clap/resolve/main/630k-audioset-fusion
 Then, for vision-based experiments, the following models are needed: [egovlp.pth](https://drive.google.com/file/d/1-cP3Gcg0NGDcMZalgJ_615BQdbFIbcj7/view?usp=sharing), and [jx_vit_base_p16_224-80ecf9dd.pth](https://github.com/huggingface/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_p16_224-80ecf9dd.pth). These can be downloaded in the right folders by running the code below:
 
 ```
-mkdir pretrained
 wget https://github.com/huggingface/pytorch-image-models/releases/download/v0.1-vitjx/jx_vit_base_p16_224-80ecf9dd.pth -P pretrained/
 gdown --output pretrained/egovlp.pth "https://drive.google.com/uc?id=1-cP3Gcg0NGDcMZalgJ_615BQdbFIbcj7"
 ```
@@ -201,6 +246,16 @@ If you find our work helps, please consider citing our paper and the other relev
 } 
 ```
 
+## Potential errors:
+```
+ImportError: /lib64/libstdc++.so.6: version `CXXABI_1.3.8' not found (required by /users/user/miniconda3/envs/egovlp/lib/python3.8/site-packages/av/../../../.
+/libopenh264.so.6)
+```
+This can be solved by running the following:
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/miniconda3/lib
+```
+More info [here](https://stackoverflow.com/questions/58424974/anaconda-importerror-usr-lib64-libstdc-so-6-version-glibcxx-3-4-21-not-fo).
 
 ## ✉️ Contact
 

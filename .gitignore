@@ -15,3 +15,5 @@ pretrained_models/
 .vscode/
 dataset/
 egoclip_res_test/
+results/
+data/

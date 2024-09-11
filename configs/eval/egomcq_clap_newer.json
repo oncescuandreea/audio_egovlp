@@ -52,12 +52,12 @@
             "type": "MultiDistTextAudVideoDataLoader",
             "args": {
                 "dataset_name": "EgoClip",
-                "data_dir": "<dataset_path>/Ego4D/ego4d_chunked/",
+                "data_dir": "./dataset/ego4d_chunked/",
                 "meta_dir": "./dataset",
                 "reader": "cv2_egoclip",
                 "shuffle": true,
-                "num_workers": 32,
-                "batch_size": 64,
+                "num_workers": 1,
+                "batch_size": 1,
                 "split": "train",
                 "subsample": "mcq",
                 "text_params": {
