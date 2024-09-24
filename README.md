@@ -199,7 +199,7 @@ If you find our work helps, please consider citing our paper and the other relev
 
 ```bibtex
 @InProceedings{Oncescu24,
-  author       = {Andreea-Maria Oncescu and Joao~F. Henriques and Andrew Zisserman and Samuel Albanie and Yang Liu and A. Sophia Koekpe},
+  author       = {Andreea-Maria Oncescu and Joao~F. Henriques and Andrew Zisserman and Samuel Albanie and A. Sophia Koekpe},
   title        = {A SOUND APPROACH: Using Large Language Models to generate audio descriptions for egocentric text-audio retrieval},
   booktitle    = {International Conference on Acoustics, Speech, and Signal Processing},
   month        = mar,
