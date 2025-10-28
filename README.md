@@ -1,7 +1,7 @@
 # 🎧 Audio Retrieval in Egocentric Videos
 
 [![Project](https://img.shields.io/badge/Project_Page-Visit-blue)](https://github.com/oncescuandreea/audio_egovlp)
-[![Webpage](https://www.robots.ox.ac.uk/~vgg/research/audio-retrieval/ego)
+[![Webpage](https://img.shields.io/badge/🌐_Webpage-Visit-9cf?logo=google-chrome&logoColor=white)](https://www.robots.ox.ac.uk/~vgg/research/audio-retrieval/ego)
 [![arXiv](https://img.shields.io/badge/arXiv-2402.19106-b31b1b)](https://arxiv.org/abs/2402.19106)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
