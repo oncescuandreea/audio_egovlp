@@ -125,47 +125,79 @@ gdown --output pretrained/egovlp.pth "https://drive.google.com/uc?id=1-cP3Gcg0NG
 
 ## 🚀 Running Experiments
 
-<details>
-<summary><b>AudioEpicMIR (Table 1)</b></summary>
+> ⚠️ **Important:** Before running any experiment, make sure to **update the `data_dir`** field in your config file (e.g., `configs/eval/...json`) to point to your local dataset path.  
+> Use `--use_gpt true` to enable LLM-generated audio descriptions and `--use_gpt false` to use original visual labels.
 
-- WavCaps: `configs/eval/epic_clap_wavcap.json`
-- CLAP: `configs/eval/epic_clap.json`
+---
 
-Example:
-```bash
-python -m torch.distributed.launch   --nproc_per_node 1 --master_port 8082   ./run/test_epic_wavcaps.py   --config configs/eval/epic_clap_wavcap.json   --use_gpt true   --load_ckpt_aud /path/to/HTSAT-BERT-FT-Clotho.pt   --folder results_epicmir
-```
-</details>
+### 🎧 AudioEpicMIR (Table 1)
 
-<details>
-<summary><b>AudioEgoMCQ (Table 2)</b></summary>
+- **WavCaps model:** `configs/eval/epic_clap_wavcap.json`
+- **Laion-CLAP model:** `configs/eval/epic_clap.json`
 
-- WavCaps: `configs/eval/egomcq_clap_newer_wavcap.json`  
-- CLAP: `configs/eval/egomcq_clap_newer.json`
-
-Example:
-```bash
-python -m torch.distributed.launch   --nproc_per_node 1 --master_port 2044   ./run/train_egoclip_clap.py   --config configs/eval/egomcq_clap_newer.json   --use_gpt false
-```
-</details>
-
-<details>
-<summary><b>EpicSoundsRet (Table 3)</b></summary>
+Example — *WavCaps with GPT-generated audio descriptions*:
 
 ```bash
-python -m torch.distributed.launch   --nproc_per_node 1 --master_port 8082   ./run/test_epic_wavcaps.py   --config configs/eval/epicsound_clap_wavcap.json   --use_gpt true   --folder folder_epicsounds   --load_ckpt_aud /path/to/HTSAT-BERT-FT-AudioCaps.pt
+python -m torch.distributed.launch   --nnodes=1 --node_rank=0 --nproc_per_node 1 --master_port 8082   ./run/test_epic_wavcaps.py   --config configs/eval/epic_clap_wavcap.json   --seed 0   --use_gpt true   --relevancy caption   --suffix ""   --folder <RESULTS_FOLDER>   --load_ckpt_aud /path/to/HTSAT-BERT-FT-Clotho.pt   --dual_softmax "False"
 ```
-</details>
 
-<details>
-<summary><b>Relevancy Subsets (Tables 4 & 5)</b></summary>
+---
 
-Use the `--suffix` flag for AudioEpicMIR or modify `--val_file` and `--test_file` for AudioEgoMCQ:
-- `_gptfiltered_low`  
-- `_gptfiltered_moderate`  
-- `_gptfiltered_high`  
+### 🎥 AudioEgoMCQ (Table 2)
 
-</details>
+- **WavCaps model:** `configs/eval/egomcq_clap_newer_wavcap.json`
+- **Laion-CLAP model:** `configs/eval/egomcq_clap_newer.json`
+
+Example — *CLAP model with visual labels as audio descriptions*:
+
+```bash
+python -m torch.distributed.launch   --nnodes=1 --node_rank=0 --nproc_per_node 1 --master_port 2044   ./run/train_egoclip_clap.py   --config configs/eval/egomcq_clap_newer.json   --seed 2   --use_gpt false   --val_file egomcq_aud_full_filtered_query_and_answer_filter_cliptextfull_silence.json   --test_file egomcq_aud_full_filtered_query_and_answer_filter_cliptextfull_silence.json
+```
+
+---
+
+### 🔊 EpicSoundsRet (Table 3)
+
+- **WavCaps model:** `configs/eval/epicsound_clap_wavcap.json`
+- **Laion-CLAP model:** `configs/eval/epicsound_clap.json`
+
+Example — *WavCaps with GPT audio descriptions*:
+
+```bash
+python -m torch.distributed.launch   --nnodes=1 --node_rank=0 --nproc_per_node 1 --master_port 8082   ./run/test_epic_wavcaps.py   --config configs/eval/epicsound_clap_wavcap.json   --seed 2   --folder folder_epicsounds   --val_test_split test   --use_gpt true   --load_ckpt_aud /path/to/HTSAT-BERT-FT-AudioCaps.pt   --dual_softmax "False"
+```
+
+---
+
+### 🧮 AudioEpicMIR Relevancy Subsets (Table 4)
+
+Use the `--suffix` flag to select the subset:
+
+- `_gptfiltered_low` — low relevancy  
+- `_gptfiltered_moderate` — moderate relevancy  
+- `_gptfiltered_high` — high relevancy  
+
+Example — *Moderate subset, WavCaps finetuned on AudioCaps*:
+
+```bash
+python -m torch.distributed.launch   --nnodes=1 --node_rank=0 --nproc_per_node 1 --master_port 2041   ./run/test_epic_wavcaps.py   --config configs/eval/epic_clap_wavcap.json   --seed 2   --use_gpt true   --relevancy caption   --suffix _gptfiltered_moderate   --folder folder_results_table4   --dual_softmax "False"
+```
+
+---
+
+### 🎧 AudioEgoMCQ Relevancy Subsets (Table 5)
+
+Adjust `--val_file` and `--test_file` as follows:
+
+- `..._moderate_high.json` — low relevancy subset  
+- `..._low_high.json` — moderate relevancy subset  
+- `..._low_moderate.json` — high relevancy subset  
+
+Example — *Moderate subset, WavCaps model finetuned on AudioCaps, visual labels as audio descriptions*:
+
+```bash
+python -m torch.distributed.launch   --nnodes=1   --node_rank=0   --nproc_per_node 1   --master_port 8083   ./run/train_egoclip_clap.py   --config configs/eval/egomcq_clap_newer_wavcap.json   --seed 1   --use_gpt false   --val_file egomcq_aud_full_filtered_query_and_answer_filter_cliptextfull_silence_low_high.json   --test_file egomcq_aud_full_filtered_query_and_answer_filter_cliptextfull_silence_low_high.json   --load_ckpt_aud /path/to/HTSAT-BERT-FT-AudioCaps.pt
+```
 
 ---
 
@@ -219,6 +251,8 @@ If you find this work useful, please cite:
 } 
 ```
 
+*(See full references in the original README.)*
+
 ---
 
 ## ⚠️ Common Issues
@@ -234,21 +268,12 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/miniconda3/lib
 
 More details [here](https://stackoverflow.com/questions/58424974/anaconda-importerror-usr-lib64-libstdc-so-6-version-glibcxx-3-4-21-not-fo).
 
-```bash
-AttributeError: Can't get attribute '_unpickle_block' on <module 'pandas._libs.internals'
-```
-
-✅ Fix:
-```bash
-pip install -U pandas==1.4.1
-```
-
 ---
 
 ## ✉️ Contact
 
 Maintained by [**Andreea**](https://github.com/oncescuandreea)  
-📧 `oncescuandreea@yahoo.com`
+📧 `oncescu@robots.ox.ac.uk`
 
 ---
 
