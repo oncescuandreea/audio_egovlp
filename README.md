@@ -273,7 +273,7 @@ More details [here](https://stackoverflow.com/questions/58424974/anaconda-import
 ## ✉️ Contact
 
 Maintained by [**Andreea**](https://github.com/oncescuandreea)  
-📧 `oncescu@robots.ox.ac.uk`
+📧 `oncescuandreea@yahoo.com`
 
 ---
 
